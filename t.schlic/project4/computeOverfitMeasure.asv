@@ -1,0 +1,31 @@
+function [ overfit_m ] = computeOverfitMeasure( true_Q_f, N_train, N_test, var, num_expts )
+%COMPUTEOVERFITMEASURE Compute how much worse H_10 is compared with H_2 in
+%terms of test error. Negative number means it's better.
+%   Inputs
+%       true_Q_f: order of the true hypothesis
+%       N_train: number of training examples
+%       N_test: number of test examples
+%       var: variance of the stochastic noise
+%       num_expts: number of times to run the experiment
+%   Output
+%       overfit_m: vector of length num_expts, reporting each of the
+%                  differences in error between H_10 and H_2
+
+
+[train_set test_set]=generate_dataset(true_Q_f,N_train,N_test,sqrt(var))
+
+X2=computeLegPoly(train_set(:,1)',2)';
+Y2=train_set(:,2);
+
+X10=computeLegPoly(train_set(:,1)',10)';
+Y10=train_set(:,2);
+
+g2=glmfit(X2,Y2,'normal','constant','off')
+g10=glmfit(X10,Y10,'normal','constant','off')
+
+Eoutg2=(sum(bsxfun(@times,g2,X2))'-Y2).^2;
+Eoutg10=(sum(bsxfun(@times,g10,X10))'-Y10).^2;
+overfit_m=zeros(num_expts,1);
+
+end
+

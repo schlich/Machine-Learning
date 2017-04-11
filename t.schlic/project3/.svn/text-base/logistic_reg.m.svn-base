@@ -1,0 +1,12 @@
+function [ w e_in ] = logistic_reg( X, Y, max_its )
+%LOGISTIC_REG Learn logistic regression model using gradient descent
+%   Inputs:
+%       X : data matrix
+%       Y : data labels (plus or minus 1)
+%   Outputs:
+%       w : weight vector
+%       e_in : in-sample error (as defined in LFD)
+    
+    
+end
+
